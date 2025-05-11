@@ -1,11 +1,22 @@
-import { Bot, Context } from 'grammy';
-import type { NextApiRequest, NextApiResponse } from 'next';
+import { webhookCallback, Context, Bot } from "grammy";
 
-const bot = new Bot(process.env.TELEGRAM_BOT_TOKEN ?? '');
+export const dynamic = "force-dynamic";
+export const fetchCache = "force-no-store";
 
-bot.command("start", async (ctx: Context) => {
-  await ctx.reply("Привет");
-})
+const token = process.env.TELEGRAM_BOT_TOKEN;
+
+if (!token) {
+  throw new Error("TELEGRAM_BOT_TOKEN environment variable not found.");
+}
+
+const bot = new Bot(token);
+
+// Обработка команды /start только в нужной группе
+bot.command("start", async (ctx) => {
+  await ctx.reply("Привет. бро");
+});
+
+// Обработка голосовых сообщений только в нужной группе
 
 bot.on('message', async (ctx: Context) => {
   if (ctx.message && ctx.message.text) {
@@ -41,15 +52,5 @@ bot.on('message', async (ctx: Context) => {
   }
 });
 
-export default async function handler(req: NextApiRequest, res: NextApiResponse) {
-  if (req.method === 'POST') {
-    await bot.handleUpdate(req.body);
-    res.status(200).end();
-  } else if (req.method === 'GET' && req.query.setWebhook === 'true') {
-    const webhookUrl = `https://${process.env.VERCEL_URL}/api/bot`;
-    await bot.api.setWebhook(webhookUrl);
-    res.status(200).send('Webhook set successfully');
-  } else {
-    res.status(405).end();  // Method Not Allowed
-  }
-}
+
+export const POST = webhookCallback(bot, "std/http");
