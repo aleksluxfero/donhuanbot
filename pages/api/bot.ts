@@ -31,6 +31,7 @@ bot.on('message', async (ctx: Context) => {
       const data = await response.json();
       await ctx.reply(data.response);  // Предполагаем, что API возвращает объект с полем response
     } catch (error) {
+      console.error(error)
       await ctx.reply('Ошибка при обработке запроса.');
     }
   }
