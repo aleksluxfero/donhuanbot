@@ -3,6 +3,10 @@ import type { NextApiRequest, NextApiResponse } from 'next';
 
 const bot = new Bot(process.env.TELEGRAM_BOT_TOKEN ?? '');
 
+bot.command("start", async (ctx: Context) => {
+  await ctx.reply("Привет");
+})
+
 bot.on('message', async (ctx: Context) => {
   if (ctx.message && ctx.message.text) {
     const userMessage = ctx.message.text;
