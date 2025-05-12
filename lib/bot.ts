@@ -4,9 +4,7 @@ import { Bot, webhookCallback } from "grammy";
 const bot = new Bot(process.env.BOT_TOKEN || "");
 
 // Пример команды
-bot.command("start", (ctx) =>
-  ctx.reply("Привет! Я бот на grammY и Next.js 15!"),
-);
+bot.command("start", (ctx) => ctx.reply("Привет!"));
 
 bot.catch((err) => {
   console.error(`Ошибка в боте: ${err}`);
