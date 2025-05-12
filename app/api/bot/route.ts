@@ -10,12 +10,13 @@ export async function GET(request: NextRequest) {
 }
 
 export async function POST(request: NextRequest) {
+  console.log("Получен POST-запрос от Telegram");
   try {
-    // Передаем запрос в обработчик вебхуков grammY
     await handleWebhook(request);
+    console.log("Вебхук успешно обработан");
     return new Response("OK", { status: 200 });
   } catch (error) {
-    console.error("Ошибка вебхука:", error);
+    console.error("Ошибка при обработке вебхука:", error);
     return new Response("Ошибка", { status: 500 });
   }
 }
