@@ -33,4 +33,4 @@ bot.catch((err) => {
 });
 
 // Экспортируем функцию для обработки вебхуков
-export const handleWebhook = webhookCallback(bot, "callback");
+export const handleWebhook = webhookCallback(bot, "std/http");
